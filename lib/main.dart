@@ -12,7 +12,13 @@ import 'screens/admin/admin_panel.dart';
 import 'screens/result/result_page.dart';
 import 'screens/leaderboard/leaderboard_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize DataService
+  final dataService = DataService();
+  await dataService.initialize();
+
   runApp(QuizApp());
 }
 
@@ -24,6 +30,20 @@ class QuizApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        // Add some custom theme configurations
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+        cardTheme: CardThemeData(
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       ),
       home: HomePage(),
       routes: {
@@ -32,6 +52,7 @@ class QuizApp extends StatelessWidget {
         '/results': (context) => ResultPage(),
         '/leaderboard': (context) => LeaderboardPage(),
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
