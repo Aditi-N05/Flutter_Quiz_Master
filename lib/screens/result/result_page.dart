@@ -76,109 +76,135 @@ class ResultPage extends StatelessWidget {
             colors: [Colors.purple[50]!, Colors.white],
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Card(
-                elevation: 8,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: _getScoreColor(percentage),
-                        child: Text(
-                          '${percentage.toInt()}%',
-                          style: const TextStyle(
-                            fontSize: 24,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final screenWidth = constraints.maxWidth;
+            final isSmallScreen = screenWidth < 360;
+
+            return ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                Card(
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: isSmallScreen ? 40 : 50,
+                          backgroundColor: _getScoreColor(percentage),
+                          child: Text(
+                            '${percentage.toInt()}%',
+                            style: TextStyle(
+                              fontSize: isSmallScreen ? 20 : 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          _getResultMessage(result.userName, percentage),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: isSmallScreen ? 20 : 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        _buildResultRow(
+                          'Score',
+                          '${result.score}/${result.totalQuestions}',
+                        ),
+                        _buildResultRow('Percentage', '${percentage.toInt()}%'),
+                        _buildResultRow(
+                          'Time Taken',
+                          _formatDuration(result.timeTaken),
+                        ),
+                        _buildResultRow(
+                          'Completed',
+                          _formatDateTime(result.completedAt),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          '/',
+                          (route) => false,
+                        ),
+                        icon: const Icon(Icons.home),
+                        label: Text(
+                          'Home',
+                          style: TextStyle(
+                            fontSize: isSmallScreen ? 14 : 16,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                            vertical: isSmallScreen ? 10 : 12,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 24),
-                      Text(
-                        _getResultMessage(result.userName, percentage),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () =>
+                            Navigator.pushNamed(context, '/leaderboard'),
+                        icon: const Icon(Icons.leaderboard),
+                        label: Text(
+                          'Leaderboard',
+                          style: TextStyle(
+                            fontSize: isSmallScreen ? 14 : 16,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                            vertical: isSmallScreen ? 10 : 12,
+                          ),
                         ),
                       ),
-                      const SizedBox(height: 16),
-                      _buildResultRow(
-                        'Score',
-                        '${result.score}/${result.totalQuestions}',
-                      ),
-                      _buildResultRow('Percentage', '${percentage.toInt()}%'),
-                      _buildResultRow(
-                        'Time Taken',
-                        _formatDuration(result.timeTaken),
-                      ),
-                      _buildResultRow(
-                        'Completed',
-                        _formatDateTime(result.completedAt),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 30),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        '/',
-                        (route) => false,
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: () => Navigator.pushNamed(context, '/quiz'),
+                    icon: const Icon(Icons.refresh),
+                    label: Text(
+                      'Take Another Quiz',
+                      style: TextStyle(
+                        fontSize: isSmallScreen ? 14 : 16,
                       ),
-                      icon: const Icon(Icons.home),
-                      label: const Text('Home'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      padding: EdgeInsets.symmetric(
+                        vertical: isSmallScreen ? 10 : 12,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () =>
-                          Navigator.pushNamed(context, '/leaderboard'),
-                      icon: const Icon(Icons.leaderboard),
-                      label: const Text('Leaderboard'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () => Navigator.pushNamed(context, '/quiz'),
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Take Another Quiz'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+          },
         ),
       ),
     );
