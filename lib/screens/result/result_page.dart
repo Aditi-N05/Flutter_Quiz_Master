@@ -136,11 +136,7 @@ class ResultPage extends StatelessWidget {
                       onPressed: () => Navigator.pushNamedAndRemoveUntil(
                         context,
                         '/',
-<<<<<<< HEAD
                         (route) => false,
-=======
-                            (route) => false,
->>>>>>> 9b3aaa4 (UI change to result page)
                       ),
                       icon: const Icon(Icons.home),
                       label: const Text('Home'),
