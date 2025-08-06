@@ -57,6 +57,6 @@ flutter run -d chrome
 ```
 
 ## On iOS (Mac only):
-``bash
+```bash
 flutter run -d ios
 ```
