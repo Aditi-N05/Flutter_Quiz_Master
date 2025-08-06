@@ -65,7 +65,7 @@ class ResultPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Quiz Results'),
-        backgroundColor: Colors.purple[600],
+        backgroundColor: Colors.blue[600],
         automaticallyImplyLeading: false,
       ),
       body: Container(
@@ -136,7 +136,11 @@ class ResultPage extends StatelessWidget {
                       onPressed: () => Navigator.pushNamedAndRemoveUntil(
                         context,
                         '/',
+<<<<<<< HEAD
                         (route) => false,
+=======
+                            (route) => false,
+>>>>>>> 9b3aaa4 (UI change to result page)
                       ),
                       icon: const Icon(Icons.home),
                       label: const Text('Home'),
