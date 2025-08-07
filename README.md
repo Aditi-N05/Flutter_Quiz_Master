@@ -1,5 +1,12 @@
 # quiz_app
 
+### 🛠️ Project Contributors
+
+This project is a joint effort by:
+- [@Aditi-N05](https://github.com/Aditi-N05)
+- [@Akanksha2124](https://github.com/Akanksha2124)
+
+
 # 🎯 Flutter Quiz Master
 
 A modern quiz application built with **Flutter**, designed for both users and admins.  
