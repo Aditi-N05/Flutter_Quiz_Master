@@ -26,11 +26,6 @@ class DataService {
     _prefs = await SharedPreferences.getInstance();
     await _loadData();
 
-    // If no data exists, load default questions
-    if (_questions.isEmpty) {
-      await _loadDefaultQuestions();
-    }
-
     _initialized = true;
   }
 
@@ -56,8 +51,18 @@ class DataService {
       if (categoriesJson != null) {
         _categories = List<String>.from(json.decode(categoriesJson));
       }
+
+      //Ensure default questions load only once
+      final defaultsLoaded = _prefs?.getBool('defaultsLoaded') ?? false;
+      if (_questions.isEmpty && !defaultsLoaded) {
+        await _loadDefaultQuestions();
+        await _prefs?.setBool('defaultsLoaded', true);
+      }
+
+      print(
+          "✅ Loaded ${_questions.length} questions, ${_results.length} results");
     } catch (e) {
-      print('Error loading data: $e');
+      print('❌ Error loading data: $e');
       await _loadDefaultQuestions();
     }
   }
@@ -78,8 +83,11 @@ class DataService {
       // Save categories
       final categoriesJson = json.encode(_categories);
       await _prefs?.setString('categories', categoriesJson);
+
+      print(
+          "💾 Saved ${_questions.length} questions, ${_results.length} results");
     } catch (e) {
-      print('Error saving data: $e');
+      print('❌ Error saving data: $e');
     }
   }
 
@@ -192,10 +200,8 @@ class DataService {
 
   // Update categories based on existing questions
   void _updateCategories() {
-    final existingCategories = _questions
-        .map((q) => q.category)
-        .toSet()
-        .toList();
+    final existingCategories =
+        _questions.map((q) => q.category).toSet().toList();
     _categories = existingCategories;
     _categories.sort();
   }
@@ -208,9 +214,8 @@ class DataService {
 
   // Get random questions from a specific category
   List<Question> getRandomQuestionsByCategory(String category, int count) {
-    final categoryQuestions = _questions
-        .where((q) => q.category == category)
-        .toList();
+    final categoryQuestions =
+        _questions.where((q) => q.category == category).toList();
     categoryQuestions.shuffle();
     return categoryQuestions.take(count).toList();
   }
@@ -250,6 +255,7 @@ class DataService {
     _results.clear();
     _categories.clear();
     await _prefs?.clear();
+    print("🗑️ Cleared all data");
   }
 
   // Get question count by category

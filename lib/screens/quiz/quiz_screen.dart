@@ -301,89 +301,97 @@ class _QuizDashboardState extends State<QuizDashboard> {
             colors: [Colors.green[50]!, Colors.white],
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.person, size: 80, color: Colors.green),
-              const SizedBox(height: 30),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 20,
+              bottom: MediaQuery.of(context).viewInsets.bottom + 30,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(Icons.person, size: 80, color: Colors.green),
+                const SizedBox(height: 30),
 
-              // Category info card
-              Card(
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            _selectedCategory != null
-                                ? Icons.category
-                                : Icons.all_inclusive,
-                            color: Colors.blue,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Category: $categoryText',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                // Category info card
+                Card(
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              _selectedCategory != null
+                                  ? Icons.category
+                                  : Icons.all_inclusive,
+                              color: Colors.blue,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Questions: $_questionCount (from $availableQuestions available)',
-                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                      ),
-                    ],
+                            const SizedBox(width: 8),
+                            Text(
+                              'Category: $categoryText',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Questions: $_questionCount (from $availableQuestions available)',
+                          style:
+                              TextStyle(fontSize: 14, color: Colors.grey[600]),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
 
-              const SizedBox(height: 30),
-              const Text(
-                'Enter Your Name',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Your Name',
-                  border: OutlineInputBorder(),
-                  prefixIcon: Icon(Icons.person),
+                const SizedBox(height: 30),
+                const Text(
+                  'Enter Your Name',
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                textCapitalization: TextCapitalization.words,
-              ),
-              const SizedBox(height: 30),
-              Container(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton.icon(
-                  onPressed: _startQuiz,
-                  icon: const Icon(Icons.play_arrow),
-                  label: Text(
-                    'Start Quiz ($_questionCount Questions)',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                const SizedBox(height: 20),
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Your Name',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                  textCapitalization: TextCapitalization.words,
+                ),
+                const SizedBox(height: 30),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton.icon(
+                    onPressed: _startQuiz,
+                    icon: const Icon(Icons.play_arrow),
+                    label: Text(
+                      'Start Quiz ($_questionCount Questions)',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -551,8 +559,8 @@ class _QuizDashboardState extends State<QuizDashboard> {
                                           CircleAvatar(
                                             backgroundColor:
                                                 _selectedAnswer == index
-                                                ? Colors.white
-                                                : Colors.grey[300],
+                                                    ? Colors.white
+                                                    : Colors.grey[300],
                                             child: Text(
                                               String.fromCharCode(65 + index),
                                               style: TextStyle(
@@ -583,9 +591,8 @@ class _QuizDashboardState extends State<QuizDashboard> {
                                       foregroundColor: _selectedAnswer == index
                                           ? Colors.white
                                           : Colors.black87,
-                                      elevation: _selectedAnswer == index
-                                          ? 4
-                                          : 1,
+                                      elevation:
+                                          _selectedAnswer == index ? 4 : 1,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(12),
                                         side: BorderSide(

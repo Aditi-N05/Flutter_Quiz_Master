@@ -404,17 +404,19 @@ class _AdminPanelState extends State<AdminPanel> {
                                               ),
                                             ),
                                             const SizedBox(height: 8),
-                                            ...question.options.asMap().entries.map((
+                                            ...question.options
+                                                .asMap()
+                                                .entries
+                                                .map((
                                               entry,
                                             ) {
-                                              final isCorrect =
-                                                  entry.key ==
+                                              final isCorrect = entry.key ==
                                                   question.correctAnswer;
                                               return Padding(
                                                 padding:
                                                     const EdgeInsets.symmetric(
-                                                      vertical: 2,
-                                                    ),
+                                                  vertical: 2,
+                                                ),
                                                 child: Row(
                                                   children: [
                                                     Text(
@@ -441,8 +443,8 @@ class _AdminPanelState extends State<AdminPanel> {
                                                 TextButton.icon(
                                                   onPressed: () =>
                                                       _deleteQuestion(
-                                                        question.id,
-                                                      ),
+                                                    question.id,
+                                                  ),
                                                   icon: const Icon(
                                                     Icons.delete,
                                                     color: Colors.red,
@@ -527,9 +529,8 @@ class _AdminPanelState extends State<AdminPanel> {
                     itemCount: _dataService.categories.length,
                     itemBuilder: (context, index) {
                       final category = _dataService.categories[index];
-                      final questionCount = _dataService
-                          .getQuestionsByCategory(category)
-                          .length;
+                      final questionCount =
+                          _dataService.getQuestionsByCategory(category).length;
 
                       return ListTile(
                         title: Text(category),
